@@ -1,0 +1,331 @@
+/* ── Panel shell ── */
+.filters-panel {
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  background: var(--white);
+  border-right: 1px solid var(--gray-200);
+  padding: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 62px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-300) transparent;
+}
+
+/* ── Filter section block ── */
+.filter-block {
+  border-bottom: 1px solid var(--gray-100);
+  padding: 14px 18px 16px;
+}
+
+.filter-block:last-of-type {
+  border-bottom: none;
+}
+
+/* Section header */
+.filter-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.filter-section-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gray-900);
+  letter-spacing: 0.01em;
+}
+
+.filter-section-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.filter-section-count {
+  font-size: 10.5px;
+  font-weight: 800;
+  background: var(--navy);
+  color: var(--white);
+  padding: 2px 7px;
+  border-radius: 20px;
+  line-height: 1.6;
+  min-width: 20px;
+  text-align: center;
+}
+
+.filter-chevron {
+  color: var(--gray-400);
+  font-size: 11px;
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+.filter-chevron.open { transform: rotate(180deg); }
+
+/* ── Custom checkbox row ── */
+.cb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cb-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.14s ease;
+  position: relative;
+}
+
+.cb-item:hover {
+  background: var(--gray-50);
+}
+
+.cb-item.cb-checked {
+  background: #f0f4ff;
+}
+
+/* Hide native input */
+.cb-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Custom checkbox box */
+.cb-box {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 4px;
+  border: 2px solid var(--gray-300);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  flex-shrink: 0;
+}
+
+.cb-item:hover .cb-box {
+  border-color: var(--navy);
+}
+
+.cb-item.cb-checked .cb-box {
+  background: var(--navy);
+  border-color: var(--navy);
+  box-shadow: 0 2px 6px rgba(26, 35, 50, 0.28);
+}
+
+/* Checkmark SVG inside the box */
+.cb-check-svg {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.cb-item.cb-checked .cb-check-svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Label text */
+.cb-label {
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.2;
+  flex: 1;
+  transition: color 0.14s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cb-item.cb-checked .cb-label {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* Item count badge (optional, shown for categories) */
+.cb-item-count {
+  font-size: 11px;
+  color: var(--gray-400);
+  font-weight: 500;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Brand dot accent */
+.brand-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gray-300);
+  flex-shrink: 0;
+  transition: background 0.14s ease;
+}
+
+.cb-item.cb-checked .brand-dot {
+  background: var(--accent);
+}
+
+/* Show more / less */
+.show-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: color 0.14s;
+  font-family: var(--font);
+}
+
+.show-more-btn:hover { color: var(--navy); }
+
+/* ── Price Range ── */
+.price-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.price-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.price-field-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-500);
+}
+
+.price-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.price-input-prefix {
+  position: absolute;
+  left: 10px;
+  font-size: 13px;
+  color: var(--gray-500);
+  pointer-events: none;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.price-input {
+  width: 100%;
+  padding: 9px 28px 9px 22px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  color: var(--gray-800);
+  background: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  min-width: 0;
+  box-sizing: border-box;
+  font-family: var(--font);
+}
+
+.price-input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(26, 35, 50, 0.08);
+}
+
+.price-clear-btn {
+  position: absolute;
+  right: 7px;
+  background: var(--gray-200);
+  border: none;
+  color: var(--gray-600);
+  cursor: pointer;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.14s, color 0.14s;
+  padding: 0;
+  font-family: var(--font);
+}
+
+.price-clear-btn:hover { background: var(--gray-500); color: var(--white); }
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.price-input[type=number] { -moz-appearance: textfield; }
+
+.apply-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, transform 0.1s;
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+.apply-btn:hover  { background: #0f1a27; }
+.apply-btn:active { transform: scale(0.98); }
+
+/* ── Clear all button ── */
+.clear-all-wrap {
+  padding: 16px 20px 4px;
+}
+
+.clear-filters-btn {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-500);
+  transition: all 0.15s;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  font-family: var(--font);
+}
+
+.clear-filters-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+  background: #fff5f5;
+}

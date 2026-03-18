@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# ShopEasy — Product Listing App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based e-commerce product listing app built as part of the Leegality Frontend Engineering Assessment.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+Clone the repo, install dependencies, and run the dev server:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Opens at [http://localhost:3000](http://localhost:3000).
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## What it does
 
-### `npm run build`
+The app has two pages:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Product Listing** — Shows products in a 4-column grid with a sidebar for filtering. You can filter by category, price range, and brand, and all three filters stack together. Pagination resets whenever you change a filter. Clicking a product card opens a quick preview popup, or you can click through to the full detail page.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Product Detail** — Full page for a single product with an image gallery, stock status, discount badge, and a quantity selector. Has an Add to Cart and Wishlist button that both reflect immediately in the navbar icons.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Project structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+src/
+  components/
+    Navbar.jsx        — sticky navbar with cart, wishlist and profile slide-in panels
+    Filters.jsx       — sidebar with category chips, price range, brand chips
+    ProductCard.jsx   — card component + the QuickPreview modal
+    Pagination.jsx    — numbered pagination with prev/next
+  pages/
+    ProductList.jsx   — listing page, owns all filter state
+    ProductDetail.jsx — detail page, handles qty and cart/wishlist actions
+  services/
+    api.js            — all fetch calls to dummyjson.com
+  ShopContext.js      — React Context for cart and wishlist state
+  index.css           — global CSS variables and resets
+  styles/             — per-component CSS files
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## A few decisions I made
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Client-side filtering for most cases.** The API supports fetching by category but not by brand or price. Rather than making 3 separate API calls, I fetch all products once and filter client-side. For a single category selection I use the category endpoint since it's more specific; for multiple categories I fall back to the full list and filter in memory. This keeps the filter experience fast and responsive.
 
-## Learn More
+**sessionStorage for filter persistence.** When you click into a product detail and hit Back, your filters are still applied. I used sessionStorage (not localStorage) so they clear when you close the tab — it's a shopping session, not a permanent preference.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**QuickPreview via custom DOM event.** The preview button is inside ProductCard, but the modal needs to sit outside the card's stacking context to render correctly. Rather than lifting preview state all the way up through props, I dispatch a custom window event from the card and listen for it in ProductList. It's a small indirection but keeps the card component clean.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**No heavy UI library.** Everything is plain CSS with custom properties for the design tokens. The filter chips, slide-in panels, modal, and skeletons are all hand-built. It felt wrong to pull in a full component library for something this focused.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## What I'd add with more time
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Debounce the search input — right now every keystroke fires an API call
+- A sort control (price, rating, newest)
+- Persist cart and wishlist to localStorage so they survive a page refresh
+- Unit tests for the filtering logic and the context
+- Proper mobile layout — the sidebar collapses awkwardly on small screens
+- A proper checkout flow, even a mock one, to make the cart feel complete
